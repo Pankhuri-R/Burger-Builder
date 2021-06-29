@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 
 import Auxiliary from '../../hoc/Auxiliary/Auxiliary';
 import Burger from '../../Components/Burger/Burger';
-
 import BuildControls from '../../Components/Burger/BuildControls/BuildControls';
 import Modal from '../../Components/UI/Modal/Modal';
 import OrderSummary from '../../Components/Burger/OrderSummary/OrderSummary';
 import axios from '../../axios-orders';
 import Spinner from '../../Components/UI/Spinner/Spinner';
+import errorHandling from '../../hoc/ErrorHandling/ErrorHandling';
 
 const INGREDIENT_PRICES = {
     salad: 0.2,
@@ -145,4 +145,4 @@ class BurgerBuilder extends Component {
     }
 }
 
-export default BurgerBuilder;
+export default errorHandling(BurgerBuilder, axios);
