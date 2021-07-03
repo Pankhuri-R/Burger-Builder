@@ -57,7 +57,7 @@ class ContactData extends Component {
                     ]
                 },
                 value:""
-            },
+            }
         },
         loading: false
     }
@@ -65,10 +65,14 @@ class ContactData extends Component {
     orderHandler=(event)=> {
         event.preventDefault();
         this.setState({loading:true});
+        const inputData={};
+        for(let formElementIdentifier in this.state.orderForm){
+            inputData[formElementIdentifier]= this.state.orderForm[formElementIdentifier].value;
+        }
         const data={
             ingredients: this.props.ingredients,
             price: this.props.price,
-            
+            userInfo: inputData
         }
         axios.post('/orders.json',data)
         .then(response=>{
@@ -77,6 +81,18 @@ class ContactData extends Component {
         }).catch(error=>{
             this.setState({loading:false });
         });
+    }
+
+    inputChangeHandler=(event, inputIdentifier)=>{
+        let updatedOrderForm={
+            ...this.state.orderForm
+        };
+        const updatedOrderElement= {
+            ...updatedOrderForm[inputIdentifier]
+        };
+        updatedOrderElement.value= event.target.value;
+        updatedOrderForm[inputIdentifier]= updatedOrderElement;
+        this.setState({orderForm: updatedOrderForm});
     }
 
     render(){
@@ -88,15 +104,16 @@ class ContactData extends Component {
             })
         }
         let form=(
-            <form>
+            <form onSubmit={this.orderHandler}>
                     {formInput.map(formElement=>(
                         <Input 
                             key= {formElement.id}
                             elementType={formElement.config.elementType}
                             elementConfig={formElement.config.elementConfig}
-                            value={formElement.config.value} />
+                            value={formElement.config.value}
+                            changed={(event)=> this.inputChangeHandler(event,formElement.id)} />
                     ))}
-                    <Button btnType="Success" clicked={this.orderHandler}>ORDER</Button>
+                    <Button btnType="Success" >ORDER</Button>
                 </form>
         );
         if(this,this.state.loading){
