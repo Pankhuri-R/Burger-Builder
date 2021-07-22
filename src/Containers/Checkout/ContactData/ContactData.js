@@ -89,13 +89,12 @@ class ContactData extends Component {
                         {value:'cheapest', displayValue: 'Cheapest'}
                     ]
                 },
-                value:"",
+                value:"fastest",
                 validity: {},
                 valid: true
             }
         },
-        formIsValid: false,
-        loading: false
+        formIsValid: false
     }
 
     orderHandler=(event)=> {
@@ -110,7 +109,7 @@ class ContactData extends Component {
             userInfo: inputData
         }
 
-        this.props.onOrderBurger(data);
+         this.props.onOrderBurger(data);
     }
 
     checkValidity=(value,rules)=>{
@@ -199,4 +198,4 @@ const mapDispatchToProps = dispatch => {
     };
 }
 
-export default connect(mapStateToProps,mapDispatchToProps)(errorHandling((ContactData,axios)));
+export default connect(mapStateToProps,mapDispatchToProps)(errorHandling(ContactData,axios));
